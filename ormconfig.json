@@ -6,7 +6,7 @@
    "password": "orm",
    "database": "orm",
    "synchronize": true,
-   "logging": false,
+   "logging": ["query"],
    "entities": [
       "src/entity/**/*.ts"
    ],

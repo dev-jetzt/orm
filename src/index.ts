@@ -1,8 +1,33 @@
 import "reflect-metadata";
-import {createConnection} from "typeorm";
+import {createConnection, Repository} from "typeorm";
 import {User} from "./entity/User";
 import { ChatMessage } from './entity/ChatMessage';
 import { Chat } from './entity/Chat';
+
+const getAllUsers = async (userRepository: Repository<User>): Promise<User[]> => {
+    return [];
+}
+
+const getChats = async (chatRepository: Repository<Chat>): Promise<Chat[]> => {
+    return [];
+}
+
+const getMessages = async (chatMessageRepository: Repository<ChatMessage>): Promise<ChatMessage[]> => {
+    return [];
+}
+
+const getChatsFromUsers = async (chatRepository: Repository<Chat>, users: User[]): Promise<Chat[]> => {
+    return [];
+}
+
+const getMessagesFromChatAndUser = async (chatMessageRepository: Repository<ChatMessage>, chat: Chat, user: User): Promise<ChatMessage[]> => {
+    return [];
+}
+
+const getTotalNumberOfMessagesFromUser = async (chatMessageRepository: Repository<ChatMessage>, user: User): Promise<number> => {
+    return 0;
+}
+
 
 createConnection().then(async connection => {
 
@@ -19,32 +44,22 @@ createConnection().then(async connection => {
     // Insert 3 chats with a mix of the users
 
     // Insert 3 chat messages for each chat
+    
+    const users = await getAllUsers(userRepository);
+    console.assert(users.length === 3, 'contains 3 users');
 
-    const [users, totalUsers] = await userRepository.findAndCount();
-    console.assert(totalUsers === 3, 'db contains 3 users');
-    console.assert(users.length === 3, 'query returns 3 users');
+    const chats = await getChats(chatRepository);
+    console.assert(chats.length === 3, 'contains 3 chats');
 
-    const [chats, totalChats] = await chatRepository.findAndCount();
-    console.assert(totalChats === 3, 'db contains 3 chats');
-    console.assert(chats.length === 3, 'query returns 3 chats');
+    const messages = await getMessages(chatMessageRepository);
+    console.assert(messages.length === 9, 'contains 9 messages');
 
-    const [messages, totalMessages] = await chatMessageRepository.findAndCount();
-    console.assert(totalMessages === 9, 'db contains 9 messages');
-    console.assert(messages.length === 9, 'query returns 9 messages');
+    const chatsFromUsers = await getChatsFromUsers(chatRepository, []);
+    console.assert(chatsFromUsers.length > 0, 'users have chats');
 
-    users.forEach(async user => {
-        console.assert((await user.chats).length > 0, 'user is in chats');
-    });
+    const messagesFromChatAndUser = await getMessagesFromChatAndUser(chatMessageRepository, {} as Chat, {} as User);
+    console.assert(messagesFromChatAndUser.length > 0, 'has messages');
 
-    chats.forEach(async chat => {
-        console.assert((await chat.messages).length === 3, 'chat contains 3 messages');
-        console.assert((await chat.users).length > 0, 'chat contains users');
-    });
-
-    messages.forEach(async message => {
-        console.assert(message.chat !== null, 'message belongs to a chat');
-        console.assert(message.user !== null, 'message belongs to a user');
-    });
-
-
+    const totalNumberOfMessagesFromUser = await getTotalNumberOfMessagesFromUser(chatMessageRepository, {} as User);
+    console.assert(totalNumberOfMessagesFromUser > 0, 'user has messages');
 }).catch(error => console.log(error));
