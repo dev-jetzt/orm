@@ -1,20 +1,7 @@
-# orm
+# Awesome Project Build with TypeORM
 
-## Status
+Steps to run this project:
 
-Draft
-
-## Todos
-
-- Setup
-- Map entity to table, Column definitions
-- Relationships: OneToMany, ManyToOne, ManyToMany...
-- Projections
-- Lazy vs Eager
-- Repositories
-- Select entities
-- Save entity
-- Update entity
-- Delete entity
-- Transactions
-- Migrations
+1. Run `npm i` command
+2. Setup database settings inside `ormconfig.json` file
+3. Run `npm start` command
