@@ -20,6 +20,10 @@ const getChatsFromUsers = async (chatRepository: Repository<Chat>, users: User[]
     return [];
 }
 
+const getChatThatContainsText = async (chatRepository: Repository<Chat>, text: string): Promise<Chat[]> => {
+    return [];
+}
+
 const getMessagesFromChatAndUser = async (chatMessageRepository: Repository<ChatMessage>, chat: Chat, user: User): Promise<ChatMessage[]> => {
     return [];
 }
@@ -43,7 +47,7 @@ createConnection().then(async connection => {
 
     // Insert 3 chats with a mix of the users
 
-    // Insert 3 chat messages for each chat
+    // Insert 3 chat messages for each chat (TOTAL 9)
     
     const users = await getAllUsers(userRepository);
     console.assert(users.length === 3, 'contains 3 users');
@@ -56,6 +60,11 @@ createConnection().then(async connection => {
 
     const chatsFromUsers = await getChatsFromUsers(chatRepository, []);
     console.assert(chatsFromUsers.length > 0, 'users have chats');
+
+    // search for chats that contain text in the name or that have any chatMessage that contains text in the content
+    // replace 'text' with your own partial text, you want to search for, depending on the data you previously created
+    const chatWithText = await getChatThatContainsText(chatRepository, 'text');
+    console.assert(chatWithText.length > 0, 'chat contains text');
 
     const messagesFromChatAndUser = await getMessagesFromChatAndUser(chatMessageRepository, {} as Chat, {} as User);
     console.assert(messagesFromChatAndUser.length > 0, 'has messages');
