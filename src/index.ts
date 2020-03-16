@@ -42,6 +42,9 @@ createConnection().then(async connection => {
     const userRepository = connection.getRepository(User);
     const chatRepository = connection.getRepository(Chat);
     const chatMessageRepository = connection.getRepository(ChatMessage);
+    
+    // Finish mapping the entities 
+    // Run "npm run migration:generate v2" in the command line, to generate the db migration
 
     // Insert 3 users into the database
 
